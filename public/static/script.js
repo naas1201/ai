@@ -51,10 +51,8 @@ function highlightCode(content) {
 
 function scrollToBottom(element) {
     if (element) {
-      // Use smooth scroll for better UX
-      element.scrollTo({ top: element.scrollHeight, behavior: 'smooth' });
-      // Fallback for browsers that don't support smooth scroll (less likely now)
-      // element.scrollTop = element.scrollHeight;
+      // Scroll immediately to the bottom when adding new messages
+      element.scrollTop = element.scrollHeight;
     }
 }
 // --- End Utility Functions ---
@@ -108,8 +106,6 @@ function createChatMessageElement(msg) {
 
   if (msg.role === "assistant") {
     const unsafeHtml = md.render(msg.content || "");
-    // Basic sanitization example (replace with a robust library if needed for complex HTML)
-    // This example only removes script tags, VERY basic.
     const sanitizedHtml = unsafeHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
     contentSpan.innerHTML = sanitizedHtml;
     div.appendChild(contentSpan);
@@ -117,12 +113,10 @@ function createChatMessageElement(msg) {
 
     const modelDisplaySpan = document.createElement("span");
     modelDisplaySpan.className = "message-model";
-    // Display only the model name part after the last '/'
     modelDisplaySpan.innerText = `(${CHAT_MODEL_DEFAULT.split('/').pop()})`;
     div.appendChild(modelDisplaySpan);
 
   } else { // User message
-    // Display user message as plain text to prevent injection
     contentSpan.innerText = msg.content || "";
     div.appendChild(contentSpan);
   }
@@ -139,9 +133,11 @@ function renderPreviousMessages() {
   }
   chatHistory.innerHTML = ''; // Clear existing content first
   const messages = retrieveMessages();
+  // Iterate oldest to newest, PREPENDING each one
+  // This puts the oldest message first in the DOM (visually highest with flex-col-reverse)
+  // And the newest message last in the DOM (visually lowest)
   messages.forEach(msg => {
-    // Use appendChild as we clear first; prepend was for adding to existing
-    chatHistory.appendChild(createChatMessageElement(msg));
+    chatHistory.prepend(createChatMessageElement(msg)); // *** CHANGED TO PREPEND ***
   });
 }
 
@@ -154,7 +150,7 @@ async function sendMessage() {
 
   const input = document.getElementById("message-input");
   const chatHistory = document.getElementById("chat-history");
-  const sendButton = document.querySelector(".chat-input-area button[type='submit']"); // More specific selector
+  const sendButton = document.querySelector(".chat-input-area button[type='submit']");
 
 
   if (!input || !input.value.trim()) {
@@ -165,16 +161,18 @@ async function sendMessage() {
       return;
   }
 
-  isSending = true; // Set sending flag
-  if(sendButton) sendButton.disabled = true; // Disable button
+  isSending = true;
+  if(sendButton) sendButton.disabled = true;
 
 
   const userMessageContent = input.value.trim();
-  input.value = ""; // Clear input
+  input.value = "";
+  input.style.height = 'auto'; // Reset height after sending
+
 
   // Add user message to UI and history
   const userMsg = { role: "user", content: userMessageContent };
-  chatHistory.appendChild(createChatMessageElement(userMsg)); // Use append
+  chatHistory.prepend(createChatMessageElement(userMsg)); // *** CHANGED TO PREPEND ***
   scrollToBottom(chatHistory);
 
   const messages = retrieveMessages();
@@ -183,25 +181,25 @@ async function sendMessage() {
 
   // Prepare payload
   const config = { model: CHAT_MODEL_DEFAULT, systemMessage: SYSTEM_MESSAGE_DEFAULT };
-  const payload = { messages, config }; // Send current history + user msg
+  const payload = { messages, config };
 
   // Create placeholder for assistant response
-  let assistantMsg = { role: "assistant", content: "..." }; // Placeholder text
+  let assistantMsg = { role: "assistant", content: "..." };
   const assistantElement = createChatMessageElement(assistantMsg);
   const assistantContentSpan = assistantElement.querySelector(".message-content");
-  chatHistory.appendChild(assistantElement); // Use append
+  chatHistory.prepend(assistantElement); // *** CHANGED TO PREPEND ***
   scrollToBottom(chatHistory);
 
   if (!assistantContentSpan) {
       console.error("Could not find content span in assistant message element");
-      isSending = false; // Reset flag
-      if(sendButton) sendButton.disabled = false; // Re-enable button
+      isSending = false;
+      if(sendButton) sendButton.disabled = false;
       return;
   }
 
   // --- Fetch and Stream Response ---
   try {
-    assistantMsg.content = ""; // Clear placeholder text before streaming starts
+    assistantMsg.content = ""; // Clear placeholder text
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -212,43 +210,44 @@ async function sendMessage() {
         const errorData = await response.json().catch(() => ({ error: "Failed to parse error response." }));
         const errorText = errorData.error || `HTTP error! status: ${response.status}`;
         console.error("API request failed:", errorText);
-        assistantMsg.content = `Désolé, une erreur s'est produite (${errorText})`; // User-friendly error
+        assistantMsg.content = `Désolé, une erreur s'est produite (${errorText})`;
         assistantContentSpan.innerText = assistantMsg.content;
         assistantElement.classList.add("message-error");
         storeMessages(messages); // Store user message even on failure
-        return; // Stop processing this message
+        return;
     }
 
     const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
     while (true) {
       const { value, done } = await reader.read();
-      if (done) break; // Exit loop when stream is done
+      if (done) break;
 
       assistantMsg.content += value;
       const unsafeHtml = md.render(assistantMsg.content);
       const sanitizedHtml = unsafeHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
       assistantContentSpan.innerHTML = sanitizedHtml;
-      scrollToBottom(chatHistory); // Scroll as content arrives
+      // No need to scroll constantly here, already scrolled when placeholder added.
+      // Let user scroll if they want during streaming.
     }
 
     // Stream finished successfully
     console.log("Stream finished.");
-    highlightCode(assistantContentSpan); // Highlight final code
-    messages.push(assistantMsg);        // Add completed assistant message
-    storeMessages(messages);            // Store updated history including both messages
+    highlightCode(assistantContentSpan);
+    messages.push(assistantMsg);
+    storeMessages(messages); // Store history with both messages
+    scrollToBottom(chatHistory); // Scroll fully to bottom after response complete
 
   } catch (error) {
     console.error("Error during fetch or streaming:", error);
-    assistantMsg.content = "Désolé, une erreur de connexion s'est produite."; // User-friendly network error
+    assistantMsg.content = "Désolé, une erreur de connexion s'est produite.";
     if (assistantContentSpan) assistantContentSpan.innerText = assistantMsg.content;
     assistantElement.classList.add("message-error");
-    // Store only the user message if fetch failed completely
-    storeMessages(messages);
+    storeMessages(messages); // Store only user message
 
   } finally {
-      isSending = false; // Reset sending flag regardless of outcome
-      if(sendButton) sendButton.disabled = false; // Re-enable button
-      input.focus(); // Focus input for next message
+      isSending = false;
+      if(sendButton) sendButton.disabled = false;
+      input.focus();
   }
   // --- End Fetch and Stream Response ---
 }
@@ -257,7 +256,6 @@ async function sendMessage() {
 function updateStaticModelDisplay() {
   const displayElement = document.querySelector(".model-display");
   if (displayElement) {
-    // Display only the model name, not the full path
     displayElement.innerText = `Modèle: ${CHAT_MODEL_DEFAULT.split('/').pop()}`;
   } else {
     console.warn("Element with class 'model-display' not found.");
@@ -266,29 +264,20 @@ function updateStaticModelDisplay() {
 
 // Handles resetting the conversation
 function resetConversation() {
-    if (confirm("Êtes-vous sûr de vouloir effacer l'historique de la conversation ?")) { // Confirmation in French
+    if (confirm("Êtes-vous sûr de vouloir effacer l'historique de la conversation ?")) {
         console.log("Resetting conversation...");
-
-        // Clear the chat display
         const chatHistory = document.getElementById("chat-history");
         if (chatHistory) {
-            chatHistory.innerHTML = ''; // Clear visually
+            chatHistory.innerHTML = '';
         }
-
-        // Clear messages from localStorage
-        storeMessages([]); // Clear storage
-
-        // (Optional) Add a default welcome message back
+        storeMessages([]);
         const welcomeMsg = { role: "assistant", content: "Nouvelle conversation ! Comment puis-je vous aider avec votre français aujourd'hui ?" };
         if (chatHistory) {
-            chatHistory.appendChild(createChatMessageElement(welcomeMsg)); // Use append
+            // Use prepend here too, to be consistent with how new messages are added
+            chatHistory.prepend(createChatMessageElement(welcomeMsg));
         }
-
-        // Focus the input field
          const input = document.getElementById("message-input");
          if (input) input.focus();
-
-
         console.log("Conversation reset.");
     }
 }
@@ -310,16 +299,18 @@ function setupEventListeners() {
     }
 
     if (messageInput) {
+        messageInput.addEventListener("input", () => { // Use 'input' event for better responsiveness
+            // Auto-resize textarea height based on content
+             messageInput.style.height = 'auto'; // Temporarily shrink
+             messageInput.style.height = (messageInput.scrollHeight) + 'px';
+        });
         messageInput.addEventListener("keydown", (event) => {
             if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
                 sendMessage();
             }
-            // Auto-resize textarea height based on content
-             messageInput.style.height = 'auto'; // Temporarily shrink
-             messageInput.style.height = (messageInput.scrollHeight) + 'px';
         });
-         // Initial resize check in case of pre-filled content (unlikely here)
+         // Initial resize check in case of pre-filled content
          messageInput.style.height = 'auto';
          messageInput.style.height = (messageInput.scrollHeight) + 'px';
 
@@ -328,7 +319,7 @@ function setupEventListeners() {
     }
 
     if (resetButton) {
-        resetButton.addEventListener("click", resetConversation); // Call reset function
+        resetButton.addEventListener("click", resetConversation);
     } else {
          console.error("Reset button (#reset-button) not found!");
     }
