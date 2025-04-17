@@ -30,7 +30,7 @@ const models = {
     "@hf/thebloke/zephyr-7b-beta-awq"
   ],
   "ga": [
-   
+   //insert here paid models
   ]
 };
 
