@@ -106,7 +106,6 @@ img, video { max-width: 100%; height: auto; }
 
 
 /* --- [Tailwind Variable Definitions START] --- */
-/* --- (Keep the original large block of --tw- variables here) --- */
 *, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }
 ::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }
 /* --- [Tailwind Variable Definitions END] --- */
@@ -148,8 +147,8 @@ body {
   border-radius: 12px; /* Softer corners */
   border: 1px solid var(--border-color); /* Add border */
   box-shadow: 0 6px 20px rgba(80, 80, 80, 0.08); /* Refined shadow */
-  display: flex;
-  flex-direction: column;
+  display: flex; /* Keep this for the main container */
+  flex-direction: column; /* Keep this for the main container */
   height: calc(100vh - 4rem); /* Adjust height as needed */
   overflow: hidden; /* Prevent content spillover */
 }
@@ -159,8 +158,8 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   padding: 1.5rem; /* Padding inside the message list */
-  display: flex;
-  flex-direction: column;
+  /* display: flex; --- REMOVED, Rely on Tailwind class 'flex' in HTML */
+  /* flex-direction: column; --- REMOVED, Rely on Tailwind class 'flex-col-reverse' in HTML */
   gap: 1rem;
   /* Custom scrollbar (optional, Webkit only) */
   &::-webkit-scrollbar {
@@ -177,21 +176,21 @@ body {
 
 /* General Message Styling */
 .message-user, .message-assistant {
-  padding: 0.7rem 1.1rem; /* Slightly adjusted padding */
-  border-radius: 8px;  /* Less rounded, more bookish */
+  padding: 0.7rem 1.1rem;
+  border-radius: 8px;
   max-width: 78%;
   word-wrap: break-word;
   line-height: 1.55;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* Very subtle shadow */
-  position: relative; /* Needed for potential future elements like feedback */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: relative;
 }
 
 /* User Message Specifics */
 .message-user {
   background-color: var(--background-user);
   color: var(--text-primary);
-  align-self: flex-end;
-  border-radius: 8px 8px 0 8px; /* Specific corners */
+  align-self: flex-end; /* This works because parent (.message-list) IS a flex container via Tailwind */
+  border-radius: 8px 8px 0 8px;
   margin-left: auto;
 }
 
@@ -199,8 +198,8 @@ body {
 .message-assistant {
   background-color: var(--background-assistant);
   color: var(--text-primary);
-  align-self: flex-start;
-  border-radius: 8px 8px 8px 0; /* Specific corners */
+  align-self: flex-start; /* This works because parent (.message-list) IS a flex container via Tailwind */
+  border-radius: 8px 8px 8px 0;
   margin-right: auto;
 }
 
@@ -210,36 +209,33 @@ body {
     font-style: italic;
 }
 
-
 /* Content Span inside messages */
 .message-content {
-    display: block; /* Ensure it takes block space */
+    display: block;
 }
-/* Make paragraphs inside messages flow naturally */
 .message-content p {
-    margin-bottom: 0.5em; /* Space between paragraphs */
+    margin-bottom: 0.5em;
 }
 .message-content p:last-child {
-    margin-bottom: 0; /* No space after the last paragraph */
+    margin-bottom: 0;
 }
-
 
 /* Model Name Display inside assistant messages */
 .message-model {
-  font-size: 0.7rem; /* Even smaller */
+  font-size: 0.7rem;
   line-height: 1;
   color: var(--text-secondary);
-  margin-top: 0.5rem; /* Increased space */
+  margin-top: 0.5rem;
   display: block;
-  text-align: left; /* Ensure alignment */
+  text-align: left;
 }
 
 /* Styling for the area above the input */
 .chat-controls {
-    padding: 0.5rem 1.5rem; /* Match message list horizontal padding */
-    text-align: right; /* Align reset button to the right */
-    border-bottom: 1px solid var(--border-color); /* Separator line */
-    background-color: var(--background-container); /* Match container */
+    padding: 0.5rem 1.5rem;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-container);
 }
 
 /* Reset Button Styling */
@@ -262,44 +258,44 @@ body {
 /* Input Area Styling */
 .chat-input-area {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 1rem 1.5rem; /* Consistent padding */
-  background-color: #f8f9fa; /* Slightly different background for input area */
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
   border-top: 1px solid var(--border-color);
 }
 
 .chat-input-area form {
     display: flex;
-    flex-grow: 1; /* Allow form to take available space */
+    flex-grow: 1;
     gap: 0.5rem;
-    align-items: flex-end; /* Align items nicely with multiline textarea */
+    align-items: flex-end;
 }
 
 .chat-input-area textarea {
   flex-grow: 1;
-  padding: 0.7rem 1rem; /* Increased padding */
+  padding: 0.7rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   resize: none;
   font-family: inherit;
   font-size: 1rem;
   line-height: 1.4;
-  background-color: var(--background-container); /* White input */
+  background-color: var(--background-container);
   color: var(--text-primary);
-  min-height: 44px; /* Ensure minimum height */
-  max-height: 150px; /* Limit excessive growth */
-  overflow-y: auto; /* Scroll if needed */
+  min-height: 44px;
+  max-height: 150px;
+  overflow-y: auto;
 }
 .chat-input-area textarea:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Adjusted focus ring */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
 }
 
 /* Send Button Styling */
 .chat-input-area button[type="submit"] {
-  padding: 0.7rem 1.3rem; /* Match textarea padding */
+  padding: 0.7rem 1.3rem;
   background-color: var(--accent-color);
   color: #ffffff;
   border: none;
@@ -308,22 +304,22 @@ body {
   cursor: pointer;
   transition: background-color 0.2s ease;
   font-size: 1rem;
-  height: 44px; /* Match textarea min height */
-  align-self: flex-end; /* Align with bottom of textarea */
+  height: 44px;
+  align-self: flex-end;
 }
 .chat-input-area button[type="submit"]:hover {
-  background-color: #0056b3; /* Darker blue */
+  background-color: #0056b3;
 }
 .chat-input-area button[type="submit"]:disabled {
-    background-color: #ced4da; /* Muted disabled color */
+    background-color: #ced4da;
     cursor: not-allowed;
 }
 
 /* Static Model Display Area (below input) */
 .model-display-area {
-    width: 100%; /* Take full width */
+    width: 100%;
     text-align: center;
-    padding-top: 0.25rem; /* Small space above */
+    padding-top: 0.25rem;
     font-size: 0.75rem;
     color: var(--text-secondary);
     line-height: 1;
