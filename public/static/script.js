@@ -30,24 +30,12 @@ const models = {
     "@hf/thebloke/zephyr-7b-beta-awq"
   ],
   "ga": [
-    "@cf/meta/llama-2-7b-chat-fp16",
-    "@cf/meta/llama-2-7b-chat-int8",
-    "@cf/meta/llama-3-8b-instruct",
-    "@cf/meta/llama-3-8b-instruct-awq",
-    "@cf/meta/llama-3.1-8b-instruct",
-    "@cf/meta/llama-3.1-8b-instruct-awq",
-    "@cf/meta/llama-3.1-8b-instruct-fp8",
-    "@cf/meta/llama-3.2-11b-vision-instruct",
-    "@cf/meta/llama-3.2-1b-instruct",
-    "@cf/meta/llama-3.2-3b-instruct",
-    "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-    "@cf/mistral/mistral-7b-instruct-v0.1",
-    "@hf/meta-llama/meta-llama-3-8b-instruct"
+   
   ]
 };
 
-const CHAT_MODEL_DEFAULT = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-const SYSTEM_MESSAGE_DEFAULT = "You are a helpful assistant";
+const CHAT_MODEL_DEFAULT = "@cf/qwen/qwen1.5-14b-chat-awq";
+const SYSTEM_MESSAGE_DEFAULT = "You are a french teacher, you have a conversation in French with the student and correct him in english when that's necessary, you do not correct him if it's not necessary, when you correct him, you make sure to correct him in a way that doesn't destroy the conversation and overall make him have a normal conversation with you, the goal is for him to train his french, not to be always corrected";
 
 const domReady = (callback) => {
   if (document.readyState === "loading") {
