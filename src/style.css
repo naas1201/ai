@@ -1,15 +1,344 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+*/
 
-@layer components {
-  .message-user {
-    @apply text-left text-black w-full;
+/* --- [Tailwind CSS Reset and Base Styles START] --- */
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */
+}
+::before,
+::after {
+  --tw-content: '';
+}
+html, :host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -moz-tab-size: 4; /* 3 */
+  -o-tab-size: 4;
+     tab-size: 4; /* 3 */
+  font-family: 'Lato', Helvetica Neue, Arial, sans-serif; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+body {
+  margin: 0; /* 1 */
+  line-height: inherit; /* 2 */
+}
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+a { color: inherit; text-decoration: inherit; }
+b, strong { font-weight: bolder; }
+code, kbd, samp, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 0.9em; /* Slightly smaller code font */
+  background-color: #f1f3f5; /* Light background for code blocks */
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+pre > code { /* Style for code blocks within pre */
+    display: block;
+    padding: 1em;
+    overflow-x: auto;
+    background-color: #f8f9fa; /* Slightly different bg for blocks */
+    border: 1px solid #e9ecef;
+}
+small { font-size: 80%; }
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sub { bottom: -0.25em; }
+sup { top: -0.5em; }
+table { text-indent: 0; /* 1 */ border-color: inherit; /* 2 */ border-collapse: collapse; /* 3 */ }
+button, input, optgroup, select, textarea {
+  font-family: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  font-weight: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  letter-spacing: inherit; /* 1 */
+  color: inherit; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 3 */
+}
+button, select { text-transform: none; }
+button, input:where([type='button']), input:where([type='reset']), input:where([type='submit']) {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+:-moz-focusring { outline: auto; }
+:-moz-ui-invalid { box-shadow: none; }
+progress { vertical-align: baseline; }
+::-webkit-inner-spin-button, ::-webkit-outer-spin-button { height: auto; }
+[type='search'] { -webkit-appearance: textfield; /* 1 */ outline-offset: -2px; /* 2 */ }
+::-webkit-search-decoration { -webkit-appearance: none; }
+::-webkit-file-upload-button { -webkit-appearance: button; /* 1 */ font: inherit; /* 2 */ }
+summary { display: list-item; }
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre { margin: 0; }
+fieldset { margin: 0; padding: 0; }
+legend { padding: 0; }
+ol, ul, menu { list-style: none; margin: 0; padding: 0; }
+dialog { padding: 0; }
+textarea { resize: vertical; }
+input::-moz-placeholder, textarea::-moz-placeholder { opacity: 1; /* 1 */ color: #adb5bd; /* 2 - Lighter placeholder */ }
+input::placeholder, textarea::placeholder { opacity: 1; /* 1 */ color: #adb5bd; /* 2 - Lighter placeholder */ }
+button, [role="button"] { cursor: pointer; }
+:disabled { cursor: default; }
+img, svg, video, canvas, audio, iframe, embed, object { display: block; /* 1 */ vertical-align: middle; /* 2 */ }
+img, video { max-width: 100%; height: auto; }
+[hidden] { display: none; }
+/* --- [Tailwind CSS Reset and Base Styles END] --- */
+
+
+/* --- [Tailwind Variable Definitions START] --- */
+/* --- (Keep the original large block of --tw- variables here) --- */
+*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }
+::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }
+/* --- [Tailwind Variable Definitions END] --- */
+
+
+/* --- [NEW & MODIFIED STYLES START] --- */
+
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+/* Define "Book/Parchment" Color Palette */
+:root {
+  --background-main: #fdfaf5;      /* Creamy Parchment page background */
+  --background-container: #ffffff; /* White chat area 'page' */
+  --background-assistant: #f8f9fa; /* Very light gray assistant msg */
+  --background-user: #e9ecef;      /* Slightly darker gray user msg */
+  --text-primary: #343a40;         /* Dark Gray/Black 'ink' */
+  --text-secondary: #6c757d;      /* Medium Gray secondary text */
+  --accent-color: #007bff;         /* Standard Blue for primary actions */
+  --border-color: #e2e6ea;         /* Clean Light Gray border */
+  --error-color: #dc3545;          /* Red for errors */
+}
+
+/* Global Styles */
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: var(--background-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 16px; /* Base font size */
+}
+
+/* Chat Container Styling */
+.chat-container {
+  max-width: 850px; /* Slightly narrower */
+  margin: 2rem auto;
+  padding: 0; /* Remove padding, handle internally */
+  background-color: var(--background-container);
+  border-radius: 12px; /* Softer corners */
+  border: 1px solid var(--border-color); /* Add border */
+  box-shadow: 0 6px 20px rgba(80, 80, 80, 0.08); /* Refined shadow */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 4rem); /* Adjust height as needed */
+  overflow: hidden; /* Prevent content spillover */
+}
+
+/* Message List Area */
+.message-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.5rem; /* Padding inside the message list */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Custom scrollbar (optional, Webkit only) */
+  &::-webkit-scrollbar {
+    width: 6px;
   }
-  .message-assistant {
-    @apply bg-chat-bubble p-4 rounded-lg text-black shadow mb-2 w-full;
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
-  .message-model {
-    @apply text-xs text-gray-500;
+  &::-webkit-scrollbar-thumb {
+    background-color: #ced4da; /* Use a muted color */
+    border-radius: 3px;
   }
 }
+
+/* General Message Styling */
+.message-user, .message-assistant {
+  padding: 0.7rem 1.1rem; /* Slightly adjusted padding */
+  border-radius: 8px;  /* Less rounded, more bookish */
+  max-width: 78%;
+  word-wrap: break-word;
+  line-height: 1.55;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* Very subtle shadow */
+  position: relative; /* Needed for potential future elements like feedback */
+}
+
+/* User Message Specifics */
+.message-user {
+  background-color: var(--background-user);
+  color: var(--text-primary);
+  align-self: flex-end;
+  border-radius: 8px 8px 0 8px; /* Specific corners */
+  margin-left: auto;
+}
+
+/* Assistant Message Specifics */
+.message-assistant {
+  background-color: var(--background-assistant);
+  color: var(--text-primary);
+  align-self: flex-start;
+  border-radius: 8px 8px 8px 0; /* Specific corners */
+  margin-right: auto;
+}
+
+/* Error Message Styling */
+.message-assistant.message-error .message-content {
+    color: var(--error-color);
+    font-style: italic;
+}
+
+
+/* Content Span inside messages */
+.message-content {
+    display: block; /* Ensure it takes block space */
+}
+/* Make paragraphs inside messages flow naturally */
+.message-content p {
+    margin-bottom: 0.5em; /* Space between paragraphs */
+}
+.message-content p:last-child {
+    margin-bottom: 0; /* No space after the last paragraph */
+}
+
+
+/* Model Name Display inside assistant messages */
+.message-model {
+  font-size: 0.7rem; /* Even smaller */
+  line-height: 1;
+  color: var(--text-secondary);
+  margin-top: 0.5rem; /* Increased space */
+  display: block;
+  text-align: left; /* Ensure alignment */
+}
+
+/* Styling for the area above the input */
+.chat-controls {
+    padding: 0.5rem 1.5rem; /* Match message list horizontal padding */
+    text-align: right; /* Align reset button to the right */
+    border-bottom: 1px solid var(--border-color); /* Separator line */
+    background-color: var(--background-container); /* Match container */
+}
+
+/* Reset Button Styling */
+.reset-button {
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.reset-button:hover {
+  background-color: var(--background-assistant);
+  color: var(--text-primary);
+  border-color: #adb5bd;
+}
+
+/* Input Area Styling */
+.chat-input-area {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 0.5rem;
+  padding: 1rem 1.5rem; /* Consistent padding */
+  background-color: #f8f9fa; /* Slightly different background for input area */
+  border-top: 1px solid var(--border-color);
+}
+
+.chat-input-area form {
+    display: flex;
+    flex-grow: 1; /* Allow form to take available space */
+    gap: 0.5rem;
+    align-items: flex-end; /* Align items nicely with multiline textarea */
+}
+
+.chat-input-area textarea {
+  flex-grow: 1;
+  padding: 0.7rem 1rem; /* Increased padding */
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  resize: none;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  background-color: var(--background-container); /* White input */
+  color: var(--text-primary);
+  min-height: 44px; /* Ensure minimum height */
+  max-height: 150px; /* Limit excessive growth */
+  overflow-y: auto; /* Scroll if needed */
+}
+.chat-input-area textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Adjusted focus ring */
+}
+
+/* Send Button Styling */
+.chat-input-area button[type="submit"] {
+  padding: 0.7rem 1.3rem; /* Match textarea padding */
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+  height: 44px; /* Match textarea min height */
+  align-self: flex-end; /* Align with bottom of textarea */
+}
+.chat-input-area button[type="submit"]:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+.chat-input-area button[type="submit"]:disabled {
+    background-color: #ced4da; /* Muted disabled color */
+    cursor: not-allowed;
+}
+
+/* Static Model Display Area (below input) */
+.model-display-area {
+    width: 100%; /* Take full width */
+    text-align: center;
+    padding-top: 0.25rem; /* Small space above */
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1;
+}
+
+/* Hide the original Tailwind settings background class if it exists */
+.bg-chat-settings {
+  display: none !important;
+}
+
+
+/* --- [Existing Tailwind Utility Classes START] --- */
+/* --- (Keep the original block of .m-2, .flex, .hidden, etc. here) --- */
+.m-2{margin:.5rem}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.mr-2{margin-right:.5rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.block{display:block}.inline{display:inline}.flex{display:flex}.hidden{display:none}.h-6{height:1.5rem}.h-screen{height:100vh}.w-80{width:20rem}.w-full{width:100%}.flex-1{flex:1 1 0%}.flex-grow{flex-grow:1}.flex-col{flex-direction:column}.flex-col-reverse{flex-direction:column-reverse}.items-center{align-items:center}.items-end{align-items:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:.25rem}.border{border-width:1px}.border-chat-border{--tw-border-opacity:1;border-color:rgb(238 240 241 / var(--tw-border-opacity))}.bg-chat-apply{--tw-bg-opacity:1;background-color:rgb(27 28 59 / var(--tw-bg-opacity))}.bg-chat-button{--tw-bg-opacity:1;background-color:rgb(251 251 252 / var(--tw-bg-opacity))}/* .bg-chat-settings is hidden now */.bg-gray-200{--tw-bg-opacity:1;background-color:rgb(229 231 235 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.p-2{padding:.5rem}.p-6{padding:1.5rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pt-2{padding-top:.5rem}.text-right{text-align:right}.text-center{text-align:center}.font-sans{font-family:'Lato', Helvetica Neue, Arial, sans-serif}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.leading-tight{line-height:1.25}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity))}/* Use variable color */.text-chat-helpertext{--tw-text-opacity:1;color:rgb(138 138 138 / var(--tw-text-opacity))}/* Use variable color */.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}/* Use variable color */.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.placeholder-chat-placeholder::-moz-placeholder{--tw-placeholder-opacity:1;color:rgb(120 120 120 / var(--tw-placeholder-opacity))}.placeholder-chat-placeholder::placeholder{--tw-placeholder-opacity:1;color:rgb(120 120 120 / var(--tw-placeholder-opacity))}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:bg-gray-300:hover{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity))}.hover\:bg-gray-800:hover{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}
+/* --- [Existing Tailwind Utility Classes END] --- */
+
+
+/* --- [NEW & MODIFIED STYLES END] --- */
