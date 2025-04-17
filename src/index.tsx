@@ -66,7 +66,7 @@ app.get("/", (c) => {
       </div> {/* End chat-container */}
 
       {/* Include the script for dynamic chat functionality */}
-      <script src="/static/script.js"></script>
+      <script src="/static/script.js" defer></script>
     </>,
     // Pass title to the renderer
     { title: "Professeur Dubois - Practiquez le Français" }
